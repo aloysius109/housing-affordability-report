@@ -3,6 +3,9 @@ project:
   output-dir: _site
   render:
     - index.qmd
+  resources:
+    - assets/area-explorer.js
+    - data/derived/local_authority_history.json
 website:
   title: "Housing affordability in England and Wales"
   navbar: false
@@ -15,4 +18,4 @@ format:
     css: styles.css
     toc: false
     smooth-scroll: true
-    embed-resources: true
+    embed-resources: false

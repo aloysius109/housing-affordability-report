@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import matplotlib
@@ -115,6 +116,25 @@ def build_extremes(median: pd.DataFrame):
     plt.close(fig)
 
 
+def build_area_history(median: pd.DataFrame, lower: pd.DataFrame):
+    lower_by_code = lower.set_index("Local authority code")
+    areas = []
+    for _, row in median.iterrows():
+        code = row["Local authority code"]
+        lower_row = lower_by_code.loc[code]
+        areas.append({
+            "code": str(code),
+            "name": str(row["Local authority name"]),
+            "country": str(row["Country/Region name"]),
+            "median": {year: (None if pd.isna(row[year]) else float(row[year])) for year in YEARS},
+            "lower_quartile": {year: (None if pd.isna(lower_row[year]) else float(lower_row[year])) for year in YEARS},
+        })
+    payload = {"years": [int(year) for year in YEARS], "areas": areas}
+    (DERIVED / "local_authority_history.json").write_text(
+        json.dumps(payload, indent=2, allow_nan=False), encoding="utf-8"
+    )
+
+
 def main():
     ASSETS.mkdir(exist_ok=True)
     DERIVED.mkdir(parents=True, exist_ok=True)
@@ -128,6 +148,7 @@ def main():
     series = build_trend(median, lower)
     build_distribution(median)
     build_extremes(median)
+    build_area_history(median, lower)
     area = median[["Country/Region name", "Local authority code", "Local authority name", "2021", "2024", "2025"]].copy()
     area = area.rename(columns={"2021":"median_ratio_2021", "2024":"median_ratio_2024", "2025":"median_ratio_2025"})
     area["change_2021_2025"] = area["median_ratio_2025"] - area["median_ratio_2021"]

@@ -39,6 +39,15 @@ The median ratio across local authorities peaked in 2021. It has since fallen in
 
 **Read this as a direction-of-travel chart.** Each point is the median of local-authority ratios for that year, not the national England or Wales ratio. In 2025, the median was 8.03x for median prices and earnings, and 8.11x for lower-quartile prices and earnings.
 
+## Explore a local authority
+
+Choose an area to see its latest available median and lower-quartile ratios, and how both have changed since 1997. The dashed line marks the ONS five-times-earnings broad indicator. If an area's 2025 value is unavailable, the panel labels its latest available year.
+
+<div id="local-authority-explorer" class="authority-explorer">
+  <p class="explorer-loading">Loading local-authority series...</p>
+</div>
+<script type="module" src="assets/area-explorer.js"></script>
+
 ## The distribution shifted, but most areas remain above five
 
 The national five-times-earnings line is a broad affordability indicator. It does not account for deposits, mortgage costs, household income, or other costs of buying. Even using this broad threshold, 92.7% of local authorities with data were still above it in 2025.
