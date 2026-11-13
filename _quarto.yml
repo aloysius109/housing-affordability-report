@@ -6,6 +6,9 @@ project:
 website:
   title: "Housing affordability in England and Wales"
   navbar: false
+  page-footer:
+    left: "Independent analysis by Kathryn Hopkins | Evidence checked 13 November 2026"
+    right: "Source data: ONS | Open Government Licence v3.0"
 format:
   html:
     theme: cosmo

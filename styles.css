@@ -25,3 +25,5 @@ th,td{padding:.6rem .8rem;border-bottom:1px solid var(--line)}
 th{color:#36575a;background:#eef3ef;font-weight:600}
 hr{border:0;border-top:1px solid var(--line);margin:3rem 0}
 @media(max-width:700px){#quarto-content{padding:1rem 1rem 3rem}#title-block-header{padding:2.8rem 0 1.5rem}.metric-row{grid-template-columns:1fr;gap:.7rem}.metric-card{padding:1rem 1.2rem}.metric{font-size:2.2rem}h2{font-size:1.7rem}figure{padding:.45rem;border-radius:10px}}
+
+.nav-footer{max-width:1040px;margin:0 auto;border-top:1px solid var(--line);color:var(--muted);font-family:var(--sans);font-size:.8rem;padding:1rem 1.5rem 1.5rem}.nav-footer a{color:var(--teal)}

@@ -1,7 +1,9 @@
 ---
 title: "The affordability squeeze"
 subtitle: "House prices still take years of earnings to reach, even after the post-2021 easing."
+author: Kathryn Hopkins
 date: 2026-11-13
+date-format: "D MMMM YYYY"
 format:
   html:
     title-block-banner: false
