@@ -1,0 +1,15 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+website:
+  title: "Housing affordability in England and Wales"
+  navbar: false
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    smooth-scroll: true
+    embed-resources: true
