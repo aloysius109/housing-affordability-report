@@ -1,6 +1,9 @@
 ---
 title: "The affordability squeeze"
 subtitle: "House prices still take years of earnings to reach, even after the post-2021 easing."
+description: "Local-authority house-price-to-workplace-earnings ratios in England and Wales, 1997–2025. The median ratio was 8.03x in 2025."
+image: "https://aloysius109.github.io/assets/og/housing.png"
+image-alt: "The affordability squeeze — an 8.03x median local-authority house-price-to-earnings ratio in 2025."
 author: Kathryn Hopkins
 date: 2026-11-13
 date-format: "D MMMM YYYY"

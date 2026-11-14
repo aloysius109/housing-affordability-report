@@ -10,6 +10,14 @@ project:
     - data/ons_housing_affordability_2025.xlsx
 website:
   title: "Housing affordability in England and Wales"
+  description: "Local-authority house-price-to-workplace-earnings ratios in England and Wales, 1997–2025. The median ratio was 8.03x in 2025."
+  site-url: "https://aloysius109.github.io/housing-affordability-report/"
+  image: "https://aloysius109.github.io/assets/og/housing.png"
+  open-graph:
+    image-width: 1200
+    image-height: 630
+  twitter-card:
+    card-style: summary_large_image
   navbar: false
   page-footer:
     left: "Independent analysis by Kathryn Hopkins | Evidence checked 13 November 2026"
@@ -18,6 +26,8 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    include-in-header: head-social.html
+    canonical-url: true
     toc: false
     smooth-scroll: true
     embed-resources: false
