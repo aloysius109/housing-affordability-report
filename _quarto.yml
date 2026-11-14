@@ -20,7 +20,7 @@ website:
     card-style: summary_large_image
   navbar: false
   page-footer:
-    left: "Independent analysis by Kathryn Hopkins | Evidence checked 13 November 2026"
+    left: "[Kathryn Hopkins](https://aloysius109.github.io/) · Data as at ONS 2025"
     right: "Source data: ONS | Open Government Licence v3.0"
 format:
   html:
