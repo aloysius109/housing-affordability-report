@@ -6,6 +6,8 @@ project:
   resources:
     - assets/area-explorer.js
     - data/derived/local_authority_history.json
+    - data/derived/*.csv
+    - data/ons_housing_affordability_2025.xlsx
 website:
   title: "Housing affordability in England and Wales"
   navbar: false

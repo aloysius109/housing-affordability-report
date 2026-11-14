@@ -1,0 +1,11 @@
+Medium edition publishing notes
+
+1. Copy the rendered text from article.html into a new Medium story; do not paste the HTML source as a code block.
+2. Upload the four images in medium-edition/images in article order: affordability-trend.png, ratio-distribution.png, affordability-map.png, area-extremes.png.
+3. Add each supplied figure caption beneath its image and set the matching descriptive alt text through Medium's image controls where available.
+4. Keep the link to the full interactive report near the beginning. The area selector and data downloads remain on the report website.
+5. Check headings, bold text, external links and the chart labels in Medium preview, especially on mobile.
+6. Set the canonical link to https://aloysius109.github.io/housing-affordability-report/ in story settings.
+7. Review the story before publishing. Creating this package does not publish or update anything on Medium or GitHub Pages.
+
+This is a standalone article adaptation with four static charts. It has no Quarto classes, scripts, local page links or interactive controls. Chart files are provided separately for upload.

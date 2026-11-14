@@ -56,6 +56,12 @@ The national five-times-earnings line is a broad affordability indicator. It doe
 
 The number of areas at 12x or more fell from **76 in 2021 to 33 in 2025**. At the other end, the count below 5x rose from 10 to 23. Most areas, however, remained in the 5x to under 12x bands.
 
+## The geography of the squeeze
+
+The easing has not been evenly distributed. This map groups local authorities by their 2025 median price-to-workplace-earnings ratio; the London inset makes the smaller borough boundaries easier to compare. Isles of Scilly is shown as having no 2025 value.
+
+![Local-authority median house-price-to-workplace-earnings ratios in 2025, grouped into four bands, with London shown in an inset.](assets/affordability-map.svg){fig-alt="Map of England and Wales local authorities shaded by 2025 median price-to-earnings ratio: 23 below five, 133 from five to under eight, 128 from eight to under twelve, 33 at twelve or more, and one area with no 2025 value. London is enlarged in an inset."}
+
 ## A wide local gap
 
 In 2025, the median-price ratio ranged from **4.08x in Hyndburn** to **25.22x in Kensington and Chelsea**. The highest ratio was more than six times the lowest. A national trend conceals very different local markets.
@@ -101,3 +107,14 @@ This analysis uses the ONS **2025 House price to workplace-based earnings ratio*
 - [View the analysis script and derived area data](https://github.com/aloysius109/housing-affordability-report)
 
 The source workbook is included in this repository. Run `python scripts/analyze.py` to regenerate the charts and derived CSV files, then `quarto render` to rebuild the report. ONS data reused under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+
+## Download the data
+
+Download the area-level results, the annual trend series, or the source workbook used for this analysis.
+
+::: {.download-list}
+- [Local-authority ratios for 2025 (CSV)](data/derived/local_authority_ratios_2025.csv)
+- [Annual local-authority medians, 1997–2025 (CSV)](data/derived/annual_local_authority_medians.csv)
+- [Local-authority history for the explorer (JSON)](data/derived/local_authority_history.json)
+- [ONS 2025 source workbook (Excel)](data/ons_housing_affordability_2025.xlsx)
+:::

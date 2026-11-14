@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The affordability squeeze</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #faf9f6; color: #292929; -webkit-font-smoothing: antialiased; }
+    article { max-width: 780px; margin: 64px auto 88px; padding: 0 32px; }
+    h1,h2 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+    h1 { font-size: clamp(38px, 6vw, 54px); line-height: 1.08; letter-spacing: -1.8px; margin: 0 0 18px; font-weight: 750; }
+    h2 { font-size: 27px; line-height: 1.3; letter-spacing: -.5px; margin: 48px 0 18px; font-weight: 700; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; font-size: 24px; line-height: 1.45; color: #666; margin: 0 0 24px; font-weight: 400; letter-spacing: -.25px; }
+    .byline { font: 14px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #6b6b6b; padding-bottom: 28px; margin-bottom: 32px; border-bottom: 1px solid #dfdfda; }
+    p,li { font-family: Georgia, "Times New Roman", serif; font-size: 21px; line-height: 1.75; }
+    p { margin: 0 0 25px; }
+    ul { padding-left: 26px; margin: 24px 0 30px; }
+    li { padding-left: 5px; margin: 0 0 14px; }
+    a { color: #245b50; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    a:hover { color: #132e29; }
+    figure { margin: 36px -24px 38px; }
+    img { display: block; width: 100%; height: auto; background: white; }
+    figcaption { max-width: 690px; margin: 14px auto 0; padding: 0 12px; font: 14px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #666; text-align: center; }
+    strong { font-weight: 700; }
+    @media(max-width:600px) { article { margin: 32px auto 48px; padding: 0 22px; } h1 { letter-spacing: -1px; } .subtitle { font-size: 21px; } p,li { font-size: 19px; line-height: 1.7; } h2 { font-size: 25px; margin-top: 38px; } figure { margin: 28px -12px; } }
+    @media print { body { background: white; } article { margin: 0 auto; } figure { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+<article>
+  <h1>The affordability squeeze</h1>
+  <p class="subtitle">House prices still take years of earnings to reach—even after the post-2021 easing.</p>
+  <p class="byline">By Kathryn Hopkins · Report edition: 13 November 2026 · Data through 2025</p>
+
+  <p>The local-authority median house-price-to-workplace-earnings ratio in England and Wales has fallen for four years. Yet the improvement has not erased the gap: in 2025, the median area ratio was <strong>8.03 times earnings</strong>, down 15% from its 2021 peak of 9.41x, while <strong>294 of 317 areas with data</strong> remained above the Office for National Statistics’ broad five-times-earnings indicator.</p>
+  <p>This article presents the main findings from <a href="https://aloysius109.github.io/housing-affordability-report/">my full interactive housing affordability report</a>. It includes a local-authority explorer and the underlying data.</p>
+
+  <h2>A four-year easing, after a long rise</h2>
+  <p>The median of local-authority ratios peaked in 2021 and then fell through 2025. The trend chart shows both the median-price series and a separate lower-quartile series, which compares lower-quartile prices with lower-quartile earnings.</p>
+  <figure>
+    <img src="images/affordability-trend.png" alt="Median and lower-quartile house-price-to-workplace-earnings ratios across local authorities, 1997 to 2025; both peak in 2021 and ease through 2025, remaining above five times earnings.">
+    <figcaption>Figure 1. Median of local-authority price-to-workplace-earnings ratios, 1997–2025. The lower-quartile series compares lower-quartile prices with lower-quartile earnings; neither line is the national England or Wales ratio. Source: ONS tables 5c and 6c; analysis by Kathryn Hopkins.</figcaption>
+  </figure>
+  <p>These are area-level ratios, not a measure of a particular household’s ability to buy. The earnings measure is gross annual workplace-based earnings for full-time employees; it does not account for household income, joint earners, deposits, existing equity, mortgage rates or other buying costs.</p>
+
+  <h2>Most areas remain above the broad benchmark</h2>
+  <p>The five-times-earnings line is an ONS broad indicator, not a complete affordability test. Even after the recent easing, 294 of the 317 local authorities with a 2025 value remained above it.</p>
+  <figure>
+    <img src="images/ratio-distribution.png" alt="Stacked bars compare local-authority counts in four price-to-earnings ratio bands in 2021 and 2025. Areas at twelve times earnings or more fell from 76 to 33; areas below five rose from 10 to 23.">
+    <figcaption>Figure 2. Distribution of local-authority median ratios in 2021 and 2025. Areas at 12x or more fell from 76 to 33; those below 5x increased from 10 to 23. One authority has no 2025 value. Source: ONS table 5c; analysis by Kathryn Hopkins.</figcaption>
+  </figure>
+
+  <h2>The geography of the squeeze</h2>
+  <p>The easing is uneven across England and Wales. The map groups each area by its 2025 median ratio; London is enlarged in an inset to make the borough boundaries easier to distinguish. Isles of Scilly has no 2025 value.</p>
+  <figure>
+    <img src="images/affordability-map.png" alt="Map of England and Wales local authorities shaded by 2025 median price-to-earnings ratio: 23 below five, 133 from five to under eight, 128 from eight to under twelve, 33 at twelve or more, and one area with no 2025 value. London is enlarged in an inset.">
+    <figcaption>Figure 3. Local authorities grouped by their 2025 median price-to-workplace-earnings ratio. Bands are under 5x, 5x to under 8x, 8x to under 12x, and 12x or more. London is shown in an inset. Source: ONS table 5c and May 2023 ultra-generalised local-authority boundaries; analysis by Kathryn Hopkins.</figcaption>
+  </figure>
+
+  <h2>A wide local gap</h2>
+  <p>National averages conceal very different local markets. In 2025, the median-price ratio ranged from <strong>4.08x in Hyndburn</strong> to <strong>25.22x in Kensington and Chelsea</strong>.</p>
+  <figure>
+    <img src="images/area-extremes.png" alt="Horizontal bars show the five lowest and five highest local-authority median price-to-earnings ratios in 2025, from Hyndburn at 4.08 times to Kensington and Chelsea at 25.22 times.">
+    <figcaption>Figure 4. Five lowest and five highest local-authority median ratios in 2025. The ONS five-times-earnings broad indicator is shown for reference. Source: ONS table 5c; analysis by Kathryn Hopkins.</figcaption>
+  </figure>
+
+  <h2>What the comparison can—and cannot—say</h2>
+  <p>The ratio divides house prices by gross annual earnings for full-time employees using workplace-based earnings. It is an individual earnings comparison, not household income. It does not account for two earners, self-employment, deposits, existing equity, mortgage rates or ongoing housing costs. The homes sold are not mix-adjusted, so changes in the types of homes sold can also affect the ratio.</p>
+  <p>The five-times-earnings threshold is a broad indicator, not a complete test of whether a household can buy. Nor does a lower area ratio mean that every prospective buyer has become better placed: personal circumstances and the cost of borrowing matter.</p>
+
+  <h2>Sources and further reading</h2>
+  <p>This analysis uses the ONS 2025 House price to workplace-based earnings ratio workbook, tables 5c and 6c, for local authorities in England and Wales from 1997 to 2025. The national England and Wales values in the ONS bulletin are calculated from country-level figures and should not be confused with the median of local-authority ratios shown here.</p>
+  <p><a href="https://aloysius109.github.io/housing-affordability-report/">Explore the full interactive report and download the data</a> · <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian">ONS dataset</a> · <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2025">ONS 2025 bulletin</a></p>
+  <p>Contains Office for National Statistics data, reused under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>. Independent analysis by Kathryn Hopkins.</p>
+</article>
+</body>
+</html>

@@ -1,22 +1,44 @@
+import argparse
 import json
 from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch, PathPatch
+from matplotlib.path import Path as MatplotlibPath
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKBOOK = ROOT / "data" / "ons_housing_affordability_2025.xlsx"
 ASSETS = ROOT / "assets"
 DERIVED = ROOT / "data" / "derived"
+BOUNDARIES = ROOT / "data" / "geo" / "local_authorities.geojson"
+MEDIUM_IMAGES = ROOT / "medium-edition" / "images"
 YEARS = [str(year) for year in range(1997, 2026)]
+MEDIUM_EXPORT = False
 
 INK = "#20343a"
 TEAL = "#247367"
 GOLD = "#d68d38"
 MUTED = "#65767a"
 GRID = "#e2e9e4"
+RATIO_BANDS = [
+    ("Under 5x", lambda values: values < 5, "#478e7b"),
+    ("5x to under 8x", lambda values: (values >= 5) & (values < 8), "#a9c9b8"),
+    ("8x to under 12x", lambda values: (values >= 8) & (values < 12), "#e7bd79"),
+    ("12x or more", lambda values: values >= 12, "#b95f4b"),
+]
+
+
+def save_chart(fig, stem: str):
+    svg_path = ASSETS / f"{stem}.svg"
+    fig.savefig(svg_path, bbox_inches="tight", facecolor="white")
+    svg = svg_path.read_text(encoding="utf-8")
+    svg_path.write_text("\n".join(line.rstrip() for line in svg.splitlines()) + "\n", encoding="utf-8")
+    if MEDIUM_EXPORT:
+        MEDIUM_IMAGES.mkdir(parents=True, exist_ok=True)
+        fig.savefig(MEDIUM_IMAGES / f"{stem}.png", dpi=200, bbox_inches="tight", facecolor="white")
 
 
 def load_table(sheet: str) -> pd.DataFrame:
@@ -58,23 +80,17 @@ def build_trend(median: pd.DataFrame, lower: pd.DataFrame):
     ax.set_xlabel("")
     style_axis(ax)
     ax.legend(frameon=False, loc="upper left", ncol=2, fontsize=9)
-    fig.savefig(ASSETS / "affordability-trend.svg", bbox_inches="tight", facecolor="white")
+    save_chart(fig, "affordability-trend")
     plt.close(fig)
     return series
 
 
 def build_distribution(median: pd.DataFrame):
-    bands = [
-        ("Under 5x", lambda values: values < 5, "#478e7b"),
-        ("5x to under 8x", lambda values: (values >= 5) & (values < 8), "#a9c9b8"),
-        ("8x to under 12x", lambda values: (values >= 8) & (values < 12), "#e7bd79"),
-        ("12x or more", lambda values: values >= 12, "#b95f4b"),
-    ]
     years = ["2021", "2025"]
-    counts = [[int(test(median[year]).sum()) for _, test, _ in bands] for year in years]
+    counts = [[int(test(median[year]).sum()) for _, test, _ in RATIO_BANDS] for year in years]
     fig, ax = plt.subplots(figsize=(9.6, 3.2), layout="constrained")
     left = [0, 0]
-    for index, (label, _, color) in enumerate(bands):
+    for index, (label, _, color) in enumerate(RATIO_BANDS):
         values = [row[index] for row in counts]
         ax.barh(years, values, left=left, color=color, height=.5, label=label, edgecolor="white", linewidth=1)
         for y, value, start in zip(years, values, left):
@@ -90,8 +106,92 @@ def build_distribution(median: pd.DataFrame):
     ax.spines[["top", "right", "left", "bottom"]].set_visible(False)
     ax.tick_params(axis="both", colors=MUTED, labelsize=10, length=0, pad=8)
     ax.legend(frameon=False, loc="lower center", bbox_to_anchor=(.5, 1.02), ncol=2, fontsize=9)
-    fig.savefig(ASSETS / "ratio-distribution.svg", bbox_inches="tight", facecolor="white")
+    save_chart(fig, "ratio-distribution")
     plt.close(fig)
+
+
+def polygon_path(rings):
+    vertices = []
+    codes = []
+    for ring in rings:
+        points = [tuple(point[:2]) for point in ring]
+        if len(points) < 4:
+            continue
+        vertices.extend(points)
+        codes.extend([MatplotlibPath.MOVETO] + [MatplotlibPath.LINETO] * (len(points) - 2) + [MatplotlibPath.CLOSEPOLY])
+    return MatplotlibPath(vertices, codes) if vertices else None
+
+
+def geometry_paths(geometry):
+    if geometry["type"] == "Polygon":
+        path = polygon_path(geometry["coordinates"])
+        return [path] if path else []
+    if geometry["type"] == "MultiPolygon":
+        return [path for polygon in geometry["coordinates"] if (path := polygon_path(polygon))]
+    raise ValueError(f"Unsupported boundary geometry: {geometry['type']}")
+
+
+def build_map(median: pd.DataFrame):
+    payload = json.loads(BOUNDARIES.read_text(encoding="utf-8"))
+    boundaries = payload["features"]
+    by_code = {str(row["Local authority code"]): row["2025"] for _, row in median.iterrows()}
+    boundary_codes = {feature["properties"]["code"] for feature in boundaries}
+    missing_codes = set(by_code) - boundary_codes
+    if missing_codes:
+        raise ValueError(f"No boundary geometry for local-authority codes: {sorted(missing_codes)}")
+
+    fig, ax = plt.subplots(figsize=(7.8, 9.6), layout="constrained")
+    london_ax = ax.inset_axes([.66, .64, .30, .29])
+    london_ax.set_facecolor("white")
+    counts = [0] * len(RATIO_BANDS)
+    missing_count = 0
+    london_features = []
+
+    for feature in boundaries:
+        code = feature["properties"]["code"]
+        value = by_code[code]
+        if pd.isna(value):
+            color = "#f2f0e9"
+            hatch = "///"
+            edgecolor = "#8c9690"
+            missing_count += 1
+        else:
+            band_index = next(index for index, (_, test, _) in enumerate(RATIO_BANDS) if bool(test(value)))
+            color = RATIO_BANDS[band_index][2]
+            hatch = None
+            edgecolor = "white"
+            counts[band_index] += 1
+
+        paths = geometry_paths(feature["geometry"])
+        for path in paths:
+            patch = PathPatch(path, facecolor=color, edgecolor=edgecolor, linewidth=.35, hatch=hatch, zorder=2)
+            ax.add_patch(patch)
+            if code.startswith("E090000"):
+                london_features.append((path, color, hatch, edgecolor))
+
+    ax.set_xlim(-20_000, 670_000)
+    ax.set_ylim(-20_000, 720_000)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    ax.set_title("Local-authority median price-to-earnings ratio, 2025", loc="left", color=INK, fontsize=14, fontweight="bold", pad=15)
+
+    for path, color, hatch, edgecolor in london_features:
+        london_ax.add_patch(PathPatch(path, facecolor=color, edgecolor=edgecolor, linewidth=.65, hatch=hatch))
+    london_ax.set_xlim(500_000, 570_000)
+    london_ax.set_ylim(150_000, 200_000)
+    london_ax.set_aspect("equal")
+    london_ax.set_title("London", color=INK, fontsize=9, pad=4)
+    london_ax.set_xticks([])
+    london_ax.set_yticks([])
+    for spine in london_ax.spines.values():
+        spine.set_color("#9caaa4")
+
+    legend = [Patch(facecolor=color, edgecolor="white", label=label) for label, _, color in RATIO_BANDS]
+    legend.append(Patch(facecolor="#f2f0e9", edgecolor="#8c9690", hatch="///", label="No 2025 value"))
+    ax.legend(handles=legend, frameon=False, loc="lower center", bbox_to_anchor=(.50, -.015), ncol=2, fontsize=9)
+    save_chart(fig, "affordability-map")
+    plt.close(fig)
+    return counts, missing_count
 
 
 def build_extremes(median: pd.DataFrame):
@@ -112,7 +212,7 @@ def build_extremes(median: pd.DataFrame):
     ax.tick_params(axis="both", colors=INK, labelsize=9, length=0, pad=8)
     for bar, value in zip(bars, extremes["2025"]):
         ax.text(value + .35, bar.get_y()+bar.get_height()/2, f"{value:.2f}x", va="center", color=INK, fontsize=9, fontweight="bold")
-    fig.savefig(ASSETS / "area-extremes.svg", bbox_inches="tight", facecolor="white")
+    save_chart(fig, "area-extremes")
     plt.close(fig)
 
 
@@ -136,6 +236,11 @@ def build_area_history(median: pd.DataFrame, lower: pd.DataFrame):
 
 
 def main():
+    global MEDIUM_EXPORT
+    parser = argparse.ArgumentParser(description="Build the housing affordability report assets.")
+    parser.add_argument("--medium", action="store_true", help="Also export chart images for the Medium edition.")
+    MEDIUM_EXPORT = parser.parse_args().medium
+
     ASSETS.mkdir(exist_ok=True)
     DERIVED.mkdir(parents=True, exist_ok=True)
     median = load_table("5c")
@@ -147,6 +252,7 @@ def main():
 
     series = build_trend(median, lower)
     build_distribution(median)
+    map_counts, missing_count = build_map(median)
     build_extremes(median)
     build_area_history(median, lower)
     area = median[["Country/Region name", "Local authority code", "Local authority name", "2021", "2024", "2025"]].copy()
@@ -162,6 +268,7 @@ def main():
     print(f"2025: {int((latest < 5).sum())} below 5x; {int((latest >= 12).sum())} at least 12x; {latest.notna().sum()} areas with data.")
     print(f"2024-25: {int((change < 0).sum())} fell; {int((change > 0).sum())} rose; {int((change == 0).sum())} unchanged.")
     print(f"Trend endpoints: {series.iloc[0,1]:.2f}x in 1997 to {series.iloc[-1,1]:.2f}x in 2025.")
+    print("Map bands: " + "; ".join(f"{label}: {count}" for (label, _, _), count in zip(RATIO_BANDS, map_counts)) + f"; no 2025 value: {missing_count}.")
 
 
 if __name__ == "__main__":

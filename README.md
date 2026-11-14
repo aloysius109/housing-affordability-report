@@ -4,6 +4,8 @@ A data-led report on house-price-to-workplace-earnings ratios across local autho
 
 The report focuses on two questions: how far has affordability improved since the 2021 peak, and how many local areas remain above the ONS's broad five-times-earnings indicator.
 
+It includes a local-authority explorer, a banded map of 2025 ratios, and downloadable derived data. A standalone Medium-edition article and four chart images are in `medium-edition/`.
+
 ## Published report
 
 The report is designed for GitHub Pages at https://aloysius109.github.io/housing-affordability-report/.
@@ -23,7 +25,9 @@ python scripts/analyze.py
 quarto render
 ```
 
-The script writes SVG charts to `assets/` and derived CSV files to `data/derived/`. Quarto renders the report to `_site/index.html`.
+The analysis script writes SVG charts to `assets/` and derived CSV/JSON files to `data/derived/`. Quarto renders the report to `_site/index.html`. Run `python scripts/analyze.py --medium` to also export the four article charts as 200-dpi PNGs in `medium-edition/images/`.
+
+The map uses the vendored, ultra-generalised ONS local-authority boundaries in `data/geo/local_authorities.geojson`; routine builds do not need a network connection. To refresh the boundary file from the ONS ArcGIS service, run `python scripts/fetch_boundaries.py` and review any code changes before publishing. The GitHub Actions `Report checks` workflow rebuilds the report assets and verifies the headline figures, derived data, area-code coverage and download links. Run it locally with `python scripts/check_report.py` after `python scripts/analyze.py`.
 
 ## Interpretation
 
