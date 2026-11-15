@@ -1,0 +1,24 @@
+{
+  "title": "Housing affordability report — source watch",
+  "note": "Baselined against the ONS 2025 release used by this report. The workbook fingerprint is the one vendored as data/ons_housing_affordability_2025.xlsx. Re-baseline with `python scripts/check_sources.py --update` only after a new release has been adopted into the report.",
+  "sources": [
+    {
+      "id": "ons-affordability-workbook",
+      "label": "ONS house price to workplace-based earnings ratio workbook",
+      "url": "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian/current/aff1ratioofhousepricetoworkplacebasedearnings.xlsx",
+      "check": "bytes",
+      "sha256": "585bc98112e801fc3dd45dbc5238d05c6507d4e48dc3ec3afab4867eded1c2f4",
+      "bytes": 513860,
+      "note": "ONS serves the latest edition at the same 'current' address, so a changed fingerprint means a new release. This is byte-identical to the vendored workbook in data/."
+    },
+    {
+      "id": "ons-affordability-bulletin-2026",
+      "label": "ONS Housing affordability in England and Wales: 2026 bulletin",
+      "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2026",
+      "check": "status",
+      "status": 404,
+      "on_change": "The 2026 bulletin now exists, so the national figures and commentary quoted by this report have a newer edition.",
+      "note": "This report quotes the 2025 bulletin. The 2026 address is absent until ONS publishes it."
+    }
+  ]
+}
