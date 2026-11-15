@@ -76,7 +76,8 @@ def main():
 
     download_section = report.split("## Download the data", 1)
     require(len(download_section) == 2, "Download section is missing.")
-    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", download_section[1])
+    download_content = download_section[1].split("\n## Related reports", 1)[0]
+    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", download_content)
     require(len(links) == 4, "Expected four reader-facing data download links.")
     for link in links:
         require((ROOT / link).is_file(), f"Download target does not exist: {link}")

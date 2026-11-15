@@ -27,6 +27,7 @@ format:
     theme: cosmo
     css: styles.css
     include-in-header: head-social.html
+    include-after-body: analytics.html
     canonical-url: true
     toc: false
     smooth-scroll: true

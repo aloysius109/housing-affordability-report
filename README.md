@@ -38,3 +38,7 @@ The national England and Wales ratios in the ONS bulletin are calculated from co
 ## Attribution
 
 Contains Office for National Statistics data, reused under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+
+## Analytics
+
+The report uses GoatCounter, configured in `analytics.html`. Update the `data-goatcounter` URL in that partial if the account changes. It is used without cookies, a consent banner or personal-data collection.

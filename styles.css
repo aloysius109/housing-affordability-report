@@ -60,3 +60,9 @@ hr{border:0;border-top:1px solid var(--line);margin:3rem 0}
 .download-list ul{margin:.2rem 0;padding-left:1.3rem}
 .download-list li{padding:.25rem 0;color:var(--muted)}
 .download-list a{font-weight:600}
+
+.related-reports{max-width:850px;margin:2rem auto 1rem;padding:1.1rem 1.25rem;background:var(--pale);border:1px solid var(--line);border-radius:12px}
+.related-reports h2{margin-top:0;font-size:1.45rem}
+.related-reports ul{margin:.5rem 0 0;padding-left:1.25rem}
+.related-reports li+li{margin-top:.4rem}
+.related-reports a{color:var(--teal);font-weight:600}
